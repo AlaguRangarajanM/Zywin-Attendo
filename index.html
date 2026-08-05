@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Attendo — Attendance ERP</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ================================================================
+     EMPLOYEE LOGIN
+     Two-panel layout: branded hero (logo, gradient wordmark, live
+     clock/date) + sign-in form. Side-by-side on laptop/desktop
+     (>=800px); stacks vertically (hero on top, form below) on
+     mobile/tablet so every element stays visible on all screens.
+     ================================================================ -->
+<div id="login-screen">
+  <div class="login-hero">
+    <div class="brand"><div class="brand-mark">Z</div><div class="brand-name">Attendo</div></div>
+    <div class="hero-center">
+      <div class="hero-clock-card">
+        <div class="hero-clock mono" id="hero-clock">--:--:--</div>
+        <div class="hero-date" id="hero-date"></div>
+        <div class="hero-company">Zywin Media</div>
+      </div>
+    </div>
+    <div></div>
+  </div>
+  <div class="login-panel">
+    <div class="login-box">
+      <h2>Sign in</h2>
+      <p class="sub">Working demo — real validation, real geofence math, real approval workflow.</p>
+      <div class="field"><label>Email</label><input id="login-email" placeholder="Enter email" /></div>
+      <div class="field">
+        <label>Password</label>
+        <div class="password-wrap">
+          <input id="login-password" type="password" placeholder="Enter your password" />
+          <button type="button" class="password-toggle" id="password-toggle" onclick="togglePassword()" aria-label="Show password">👁</button>
+        </div>
+      </div>
+      <div id="login-msg"></div>
+      <button class="btn btn-purple" style="width:100%" onclick="doLogin()">Sign in</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     APP SHELL (shown after login)
+     Sidebar navigation + topbar + #content mount point. Every page
+     (Dashboard, Leave, Deliverables, Employees, WFH, Office Settings)
+     is rendered into #content by renderApp() in the script below.
+     ================================================================ -->
+<div id="app-screen">
+  <div class="app-layout">
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+    <!-- Sidebar: logo, role-based nav (populated by renderApp), user footer -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-mark">Z</div>
+        <div><div class="brand-name">Attendo</div><div class="sidebar-role" id="sidebar-role"></div></div>
+      </div>
+      <nav class="nav" id="nav-list"></nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="name" id="user-name"></div><div class="code" id="user-code"></div></div>
+        <div class="signout" onclick="doLogout()">⎋ Sign out</div>
+      </div>
+    </aside>
+    <div class="main">
+      <!-- Topbar: mobile hamburger + sync status + account switcher -->
+      <div class="topbar">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <button class="hamburger" onclick="toggleSidebar()">☰</button>
+          <span id="sync-status">Client-side demo — data resets on refresh (no database attached)</span>
+        </div>
+        <button onclick="doLogout()">Switch account</button>
+      </div>
+      <!-- Content mount point: renderApp() injects the active page here -->
+      <div class="content" id="content"></div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

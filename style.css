@@ -1,0 +1,189 @@
+  /* =========================================================
+     ROOT VARIABLES & GLOBAL RESETS
+     Brand colors, canvas, and base element resets used everywhere.
+     ========================================================= */
+  :root {
+    --canvas:#F6F4FA; --ink:#2E1245; --purple:#772BB1; --purple-dark:#5E2290; --purple-tint:#F1E4FA;
+    --coral:#E63A46; --coral-tint:#FDE4E6; --emerald:#059669; --emerald-tint:#ECFDF5; --border:rgba(0,0,0,0.07);
+    --gradient-brand: linear-gradient(135deg, var(--purple) 0%, var(--coral) 100%);
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif; background:var(--canvas); color:var(--ink); }
+  .mono { font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace; }
+
+  /* =========================================================
+     SHARED FORM & BUTTON COMPONENTS
+     Inputs, labels, buttons, and inline alert messages reused
+     across every page (login, dashboard, leave, deliverables...).
+     ========================================================= */
+  input, select, textarea { font-family:inherit; font-size:13px; padding:8px 10px; border-radius:8px; border:1px solid var(--border); width:100%; transition:border-color .15s ease, box-shadow .15s ease; }
+  input:focus, select:focus, textarea:focus { outline:none; border-color:var(--purple); box-shadow:0 0 0 3px rgba(119,43,177,.14); }
+  label { font-size:11px; font-weight:700; color:rgba(46,18,69,0.5); display:block; margin-bottom:4px; text-transform:uppercase; letter-spacing:.03em;}
+  .field { margin-bottom:12px; }
+  .password-wrap { position:relative; }
+  .password-wrap input { padding-right:38px; }
+  .password-toggle { position:absolute; right:4px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:16px; padding:6px 8px; line-height:1; color:rgba(46,18,69,.45); }
+  .password-toggle:hover { color:var(--purple); }
+  .btn { border-radius:10px; padding:10px 16px; font-size:13px; font-weight:700; cursor:pointer; border:none; }
+  .btn-purple { background:var(--gradient-brand); color:white; box-shadow:0 4px 14px rgba(119,43,177,.28); transition:filter .15s ease, transform .15s ease; }
+  .btn-purple:hover{ filter:brightness(1.07); transform:translateY(-1px); }
+  .btn-outline { background:white; border:1px solid var(--border); color:var(--ink); }
+  .btn-coral { background:var(--coral); color:white; }
+  .btn:disabled { opacity:.4; cursor:not-allowed; }
+  .msg { font-size:12px; border-radius:8px; padding:8px 10px; margin:10px 0; }
+  .msg-ok { background:var(--emerald-tint); color:var(--emerald); }
+  .msg-err { background:var(--coral-tint); color:#B92834; }
+
+  /* =========================================================
+     LOGIN PAGE — HERO / BRANDING (top panel on mobile/tablet,
+     left panel on laptop/desktop)
+     Brand mark + gradient wordmark + live white-glass time card.
+     Visible on every screen size.
+     ========================================================= */
+  #login-screen { display:grid; grid-template-columns:1fr; min-height:100vh; }
+  @media (min-width:800px){ #login-screen{ grid-template-columns:0.9fr 1.1fr; min-height:100vh; } .login-hero{ min-height:100vh; } }
+  /* Hero is always rendered (mobile, tablet, laptop, desktop) so the brand,
+     Z logo, and time card are never hidden — it just stacks above the
+     sign-in card on narrow screens instead of sitting beside it. */
+  .login-hero { display:flex; flex-direction:column; justify-content:space-between; gap:24px;
+    padding:clamp(24px,6vw,48px); color:white;
+    background:var(--ink) radial-gradient(circle at 20% 20%,rgba(119,43,177,.55),transparent 55%), radial-gradient(circle at 80% 75%,rgba(230,58,70,.5),transparent 55%); }
+  .brand{ display:flex; align-items:center; gap:10px; flex-shrink:0; }
+  .brand-mark{ width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--coral));display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:16px;flex-shrink:0; }
+  .brand-name{ font-size:18px;font-weight:800; background:var(--gradient-brand); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; }
+  .hero-center{ flex:1; display:flex; align-items:center; justify-content:center; min-width:0; padding:12px 0; }
+  /* White glassmorphism time card: translucent white + blur, so the hero's
+     purple/coral background glow shows through while staying premium & legible. */
+  .hero-clock-card{ width:100%; max-width:480px; background:rgba(255,255,255,.20); border:1px solid rgba(255,255,255,.55); border-radius:32px;
+    padding:clamp(22px,4vw,56px) clamp(18px,4vw,48px);
+    backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+    box-shadow:0 20px 60px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.6);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:6px; min-width:0; }
+  /* Font size is capped (not just vw-scaled) so "PM" always stays on the
+     same line as the time instead of wrapping to a second line, on every
+     screen size down to small phones. */
+  .hero-clock{ font-size:clamp(30px,8vw,54px); font-weight:800; font-variant-numeric:tabular-nums; color:#e73a46; line-height:1; letter-spacing:-.01em; white-space:nowrap; }
+  .hero-date{ color:#000; margin-top:10px; font-size:clamp(12px,3vw,15px); font-weight:600; }
+  .hero-company{ margin-top:18px; padding-top:16px; border-top:1px solid rgba(0,0,0,.12); width:100%; font-size:13px; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase; color:var(--purple-dark); }
+  @media (max-width:420px){ .hero-clock-card{ border-radius:22px; } }
+
+  /* =========================================================
+     LOGIN PAGE — SIGN-IN CARD (right panel)
+     ========================================================= */
+  .login-panel{ display:flex; align-items:center; justify-content:center; padding:32px; background:var(--canvas); }
+  .login-box{ width:100%; max-width:420px; background:#fff; border-radius:22px; padding:40px 36px; position:relative; overflow:hidden;
+    box-shadow:0 12px 40px rgba(46,18,69,.10), 0 2px 8px rgba(46,18,69,.06); border:1px solid var(--border); }
+  .login-box::before{ content:''; position:absolute; top:0; left:0; right:0; height:5px; background:var(--gradient-brand); }
+  .login-box h2{ font-size:26px;font-weight:800;margin:0; }
+  .login-box p.sub{ color:rgba(46,18,69,.45); font-size:14px; margin:4px 0 22px; }
+  @media (min-width:1100px){ .login-box{ max-width:460px; padding:46px 42px; } }
+  @media (max-width:400px){ .login-box{ padding:28px 22px; border-radius:18px; } }
+
+  /* =========================================================
+     APP SHELL — SIDEBAR & NAVIGATION
+     Fixed off-canvas drawer on mobile (<800px), static column on
+     tablet/desktop.
+     ========================================================= */
+  #app-screen{ display:none; min-height:100vh; }
+  .app-layout{ display:flex; min-height:100vh; }
+  .sidebar{ width:250px; flex-shrink:0; background:var(--ink); color:white; display:flex; flex-direction:column; }
+  @media (max-width:800px){
+    .sidebar{ position:fixed; top:0; left:0; height:100vh; z-index:60; transform:translateX(-100%); transition:transform .2s ease; }
+    .sidebar.open{ transform:translateX(0); }
+  }
+  .sidebar-overlay{ display:none; }
+  .sidebar-overlay.show{ display:block; position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:50; }
+  .hamburger{ display:none; background:none; border:none; font-size:20px; cursor:pointer; color:var(--ink); padding:4px 8px; flex-shrink:0; }
+  @media (max-width:800px){ .hamburger{ display:block; } }
+  .sidebar-header{ display:flex; align-items:center; gap:10px; padding:24px; }
+  .sidebar-role{ font-size:11px; color:rgba(255,255,255,.4); }
+  .nav{ flex:1; padding:0 12px; display:flex; flex-direction:column; gap:4px; }
+  .nav-item{ display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:10px; font-size:14px; font-weight:600; color:rgba(255,255,255,.55); cursor:pointer; }
+  .nav-item.active{ background:var(--gradient-brand); color:#fff; box-shadow:0 4px 12px rgba(119,43,177,.3); }
+  .nav-badge{ margin-left:auto; background:var(--coral); border-radius:999px; font-size:10px; font-weight:800; padding:2px 6px; }
+  .sidebar-footer{ border-top:1px solid rgba(255,255,255,.1); padding:16px 12px; }
+  .sidebar-user{ padding:0 12px 10px; font-size:12px; }
+  .sidebar-user .name{ font-weight:700; color:rgba(255,255,255,.75); }
+  .sidebar-user .code{ color:rgba(255,255,255,.4); }
+  .signout{ display:flex; align-items:center; gap:12px; padding:10px 12px; font-size:14px; font-weight:600; color:rgba(255,255,255,.55); cursor:pointer; }
+
+  /* =========================================================
+     APP SHELL — TOPBAR & CONTENT AREA
+     ========================================================= */
+  .main{ flex:1; display:flex; flex-direction:column; min-width:0; }
+  .topbar{ display:flex; align-items:center; justify-content:space-between; gap:10px; background:#fff; border-bottom:3px solid transparent; border-image:var(--gradient-brand) 1; padding:10px 24px; flex-wrap:wrap; }
+  .topbar span{ font-size:12px; color:rgba(46,18,69,.35); }
+  .topbar button{ background:none;border:none;color:var(--purple);font-weight:700;font-size:12px;cursor:pointer;flex-shrink:0; }
+  .content{ flex:1; padding:24px; max-width:1100px; width:100%; margin:0 auto; }
+  .page-title{ font-size:24px;font-weight:800;margin:0; }
+  .page-sub{ color:rgba(46,18,69,.45); font-size:14px; margin:4px 0 24px; }
+  /* =========================================================
+     CARDS, STATS & BADGES
+     ========================================================= */
+  .card{ background:#fff; border:1px solid var(--border); border-radius:16px; box-shadow:0 1px 2px rgba(46,18,69,.04),0 1px 8px rgba(46,18,69,.06); padding:20px; margin-bottom:20px; position:relative; overflow:hidden; }
+  .card::before{ content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--gradient-brand); opacity:.85; }
+  .label{ font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:rgba(46,18,69,.45); }
+  .stat-card::before{ display:none; }
+  .stat-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:24px; }
+  @media (min-width:700px){ .stat-grid{ grid-template-columns:repeat(4,1fr); } }
+  /* Used for the employee dashboard's "This month" mini-stats (3 tiles).
+     Stacks to a single column on very narrow phones so labels don't clip. */
+  .stat-grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:16px; }
+  @media (max-width:480px){ .stat-grid-3{ grid-template-columns:1fr; } }
+  .stat-card{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+  .stat-value{ font-size:28px;font-weight:800;margin:6px 0 0; }
+  .icon-box{ width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0; }
+  .tone-ink{ background:var(--gradient-brand); } .tone-purple{ background:var(--purple); } .tone-coral{ background:var(--coral); }
+  .badge{ display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap; }
+  .badge-approved{ background:var(--emerald-tint); color:var(--emerald); }
+  .badge-pending{ background:var(--coral-tint); color:#B92834; }
+  .badge-rejected{ background:rgba(0,0,0,.06); color:rgba(46,18,69,.5); text-decoration:line-through; }
+  .badge-none{ background:rgba(0,0,0,.05); color:rgba(46,18,69,.5); }
+  .row{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); font-size:14px; flex-wrap:wrap; }
+  .row:last-child{ border-bottom:none; }
+  /* white-space:pre-wrap preserves line breaks / numbered lists / spacing
+     that employees type into multi-line fields (e.g. daily Task text). */
+  .row-title{ font-weight:600; white-space:pre-wrap; word-break:break-word; } .row-sub{ font-size:12px; color:rgba(46,18,69,.35); }
+
+  /* =========================================================
+     TABLES
+     Every table is wrapped in a .table-scroll container so wide
+     tables scroll horizontally on narrow screens instead of
+     overflowing or crushing columns unreadably.
+     ========================================================= */
+  .table-scroll{ width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  table{ width:100%; border-collapse:collapse; font-size:13px; min-width:520px; }
+  th{ text-align:left; font-size:11px; text-transform:uppercase; color:rgba(46,18,69,.4); padding:8px 6px; border-bottom:1px solid var(--border); white-space:nowrap; }
+  td{ padding:10px 6px; border-bottom:1px solid var(--border); white-space:pre-wrap; word-break:break-word; }
+
+  /* =========================================================
+     ATTENDANCE / CLOCK WIDGETS (employee dashboard time clock)
+     ========================================================= */
+  .clock-time{ font-size:32px;font-weight:600;font-variant-numeric:tabular-nums;margin:10px 0 0; text-align:center;}
+  .clock-date{ font-size:12px;color:rgba(46,18,69,.35); text-align:center;}
+  .two-col{ display:grid; grid-template-columns:1fr; gap:20px; }
+  @media (min-width:900px){ .two-col{ grid-template-columns:1fr 1fr; } }
+  .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  @media (max-width:480px){ .form-row{ grid-template-columns:1fr; } }
+  .placeholder{ color:rgba(46,18,69,.4); font-size:14px; padding:30px; text-align:center; }
+
+  /* =========================================================
+     DELIVERABLES & EOD REPORTS
+     ========================================================= */
+  .eod-entry{ padding:12px 0; border-bottom:1px solid var(--border); }
+  .eod-entry:last-child{ border-bottom:none; }
+  .eod-date{ font-weight:800; color:var(--ink); font-size:14px; margin-bottom:6px; }
+  .eod-line{ font-size:13.5px; color:var(--ink); line-height:1.55; margin:3px 0; white-space:pre-wrap; word-break:break-word; }
+  .eod-line b{ color:var(--purple-dark); font-weight:700; }
+
+  /* =========================================================
+     RESPONSIVE / MOBILE FINE-TUNING
+     Small-screen overrides that don't fit neatly next to a single
+     component (spacing, truncation, breathing room on tiny phones).
+     ========================================================= */
+  @media (max-width:480px){
+    .content{ padding:16px; }
+    .card{ padding:16px; }
+    #sync-status{ display:none; } /* long status text gives way to the "Switch account" action on tiny screens */
+  }
